@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realistic Panda Birthday Wishes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9ecb, #ffd3e1);
+            padding: 20px;
+            transition: background 1.2s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            text-align: center;
+            z-index: 20;
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .title-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #ff2975;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                         0 0 20px rgba(255, 255, 255, 0.5),
+                         2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            animation: pulse 2s infinite, colorChange 8s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(255, 41, 117, 0.4);
+        }
+        
+        .heart {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+            transform-origin: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+        }
+        
+        .panda-container {
+            position: relative;
+            width: 300px;
+            height: 380px;
+            margin: 0 auto 15px;
+        }
+        
+        .panda {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .panda:hover {
+            transform: scale(1.05);
+        }
+        
+        .panda-head {
+            position: absolute;
+            width: 190px;
+            height: 170px;
+            background: white;
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .panda-face-patch {
+            position: absolute;
+            width: 130px;
+            height: 90px;
+            background: #222;
+            border-radius: 50% 50% 0 0;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        .panda-eye-patch {
+            position: absolute;
+            width: 55px;
+            height: 32px;
+            background: #222;
+            border-radius: 50%;
+            top: 42px;
+            z-index: 2;
+        }
+        
+        .panda-eye-patch-left {
+            left: 32px;
+            transform: rotate(-10deg);
+        }
+        
+        .panda-eye-patch-right {
+            right: 32px;
+            transform: rotate(10deg);
+        }
+        
+        .panda-ear {
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            background: #222;
+            border-radius: 50%;
+            top: -18px;
+            z-index: 1;
+            box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .panda-ear-left {
+            left: 23px;
+        }
+        
+        .panda-ear-right {
+            right: 23px;
+        }
+        
+        .panda-eye {
+            position: absolute;
+            width: 28px;
+            height: 38px;
+            background: #000;
+            border-radius: 50%;
+            top: 60px;
+            z-index: 3;
+            overflow: hidden;
+        }
+        
+        .panda-eye-left {
+            left: 42px;
+        }
+        
+        .panda-eye-right {
+            right: 42px;
+        }
+        
+        .panda-eye-light {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            top: 9px;
+            left: 7px;
+        }
+        
+        .panda-nose {
+            position: absolute;
+            width: 26px;
+            height: 16px;
+            background: #222;
+            border-radius: 35%;
+            top: 105px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        
+        .panda-mouth {
+            position: absolute;
+            width: 32px;
+            height: 16px;
+            border-bottom: 4px solid #222;
+            border-radius: 0 0 50% 50%;
+            top: 128px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        
+        .panda-body {
+            position: absolute;
+            width: 210px;
+            height: 160px;
+            background: white;
+            border-radius: 50%;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .panda-arm {
+            position: absolute;
+            width: 75px;
+            height: 130px;
+            background: #222;
+            border-radius: 40px;
+            bottom: 95px;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .panda-arm-left {
+            left: 33px;
+            transform: rotate(20deg);
+        }
+        
+        .panda-arm-right {
+            right: 33px;
+            transform: rotate(-20deg);
+        }
+        
+        .panda-hand {
+            position: absolute;
+            width: 47px;
+            height: 47px;
+            background: #222;
+            border-radius: 50%;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .panda-leg {
+            position: absolute;
+            width: 75px;
+            height: 85px;
+            background: #222;
+            border-radius: 40px;
+            bottom: 0;
+            z-index: 0;
+        }
+        
+        .panda-leg-left {
+            left: 52px;
+        }
+        
+        .panda-leg-right {
+            right: 52px;
+        }
+        
+        .sign {
+            position: absolute;
+            width: 170px;
+            height: 95px;
+            background: #ff6ba8;
+            border-radius: 10px;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
+        }
+        
+        .sign:before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 19px;
+            background: #ff6ba8;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            z-index: -1;
+        }
+        
+        .sign-text {
+            color: white;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 8px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .wish-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wish {
+            font-size: 1.3rem;
+            color: #d44d8e;
+            line-height: 1.6;
+            font-weight: 600;
+            text-align: center;
+            z-index: 2;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* Navigation buttons */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto 0;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+        
+        .nav-btn:hover:before {
+            animation: shine 1.5s ease;
+        }
+        
+        .prev-btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, #ff2975, #ff6ba8);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-btn i {
+            font-size: 1.1rem;
+        }
+        
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.8;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite;
+            pointer-events: none;
+        }
+        
+        .floating-heart {
+            color: #ff4a94;
+            font-size: 24px;
+            position: absolute;
+            animation: float 8s infinite ease-in-out, pulse 1.5s infinite alternate;
+        }
+        
+        .balloon {
+            width: 45px;
+            height: 55px;
+            border-radius: 50%;
+            position: absolute;
+            animation: float 12s infinite ease-in-out;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #ff3366);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .balloon::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.7);
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .cake {
+            font-size: 32px;
+            position: absolute;
+            animation: bounce 7s infinite ease-in-out;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .sparkle {
+            position: absolute;
+            font-size: 20px;
+            color: #fff;
+            animation: sparkle 3s infinite linear;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-30px) translateX(15px) rotate(5deg); }
+            50% { transform: translateY(-15px) translateX(-15px) rotate(-5deg); }
+            75% { transform: translateY(-40px) translateX(10px) rotate(3deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 rgba(255, 255, 255, 0.4); }
+            50% { transform: scale(1.05); opacity: 1; box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+            100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 rgba(255, 255, 255, 0.4); }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.3); }
+            60% { transform: scale(1); }
+        }
+        
+        @keyframes colorChange {
+            0% { color: #ff2975; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            25% { color: #9c1de7; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            50% { color: #f3f169; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            75% { color: #58d68d; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            100% { color: #ff2975; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+        
+        @keyframes sparkle {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+            50% { opacity: 1; transform: translate(20px, -20px) scale(1.2); }
+            100% { opacity: 0; transform: translate(40px, -40px) scale(0.5); }
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        /* Background themes */
+        .theme-1 { background: linear-gradient(135deg, #ff4e7e, #ff8da1); }
+        .theme-2 { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+        .theme-3 { background: linear-gradient(135deg, #ff5e62, #ff9966); }
+        .theme-4 { background: linear-gradient(135deg, #f83600, #f9d423); }
+        .theme-5 { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+        .theme-6 { background: linear-gradient(135deg, #00dbde, #fc00ff); }
+        .theme-7 { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+        .theme-8 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+        .theme-9 { background: linear-gradient(135deg, #f6d365, #fda085); }
+        .theme-10 { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 12px;
+                padding: 10px 18px;
+            }
+            
+            .panda-container {
+                width: 250px;
+                height: 320px;
+            }
+            
+            .panda-head {
+                width: 160px;
+                height: 150px;
+            }
+            
+            .panda-eye {
+                top: 50px;
+            }
+            
+            .panda-nose {
+                top: 95px;
+            }
+            
+            .panda-mouth {
+                top: 115px;
+            }
+            
+            .panda-body {
+                width: 180px;
+                height: 140px;
+                bottom: 60px;
+            }
+            
+            .panda-arm {
+                width: 65px;
+                height: 115px;
+                bottom: 80px;
+            }
+            
+            .sign {
+                width: 150px;
+                height: 85px;
+                bottom: 70px;
+            }
+            
+            .sign-text {
+                font-size: 0.9rem;
+            }
+            
+            .wish {
+                font-size: 1.2rem;
+            }
+            
+            .nav-btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .navigation {
+                flex-direction: row;
+                gap: 10px;
+                max-width: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+                padding: 8px 15px;
+                margin-bottom: 10px;
+            }
+            
+            .panda-container {
+                width: 220px;
+                height: 280px;
+                margin-bottom: 10px;
+            }
+            
+            .panda-head {
+                width: 140px;
+                height: 130px;
+            }
+            
+            .panda-eye {
+                width: 25px;
+                height: 35px;
+                top: 40px;
+            }
+            
+            .panda-eye-left {
+                left: 35px;
+            }
+            
+            .panda-eye-right {
+                right: 35px;
+            }
+            
+            .panda-nose {
+                width: 25px;
+                height: 15px;
+                top: 85px;
+            }
+            
+            .panda-mouth {
+                top: 100px;
+            }
+            
+            .panda-body {
+                width: 150px;
+                height: 120px;
+                bottom: 50px;
+            }
+            
+            .panda-arm {
+                width: 55px;
+                height: 95px;
+                bottom: 65px;
+            }
+            
+            .panda-arm-left {
+                left: 25px;
+            }
+            
+            .panda-arm-right {
+                right: 25px;
+            }
+            
+            .panda-leg {
+                width: 60px;
+                height: 70px;
+            }
+            
+            .panda-leg-left {
+                left: 40px;
+            }
+            
+            .panda-leg-right {
+                right: 40px;
+            }
+            
+            .sign {
+                width: 130px;
+                height: 75px;
+                bottom: 55px;
+            }
+            
+            .sign-text {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+            
+            .wish-container {
+                padding: 15px;
+                margin: 10px auto;
+                min-height: 120px;
+            }
+            
+            .wish {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+                max-width: 250px;
+            }
+            
+            .nav-btn {
+                padding: 12px 18px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body class="theme-1">
+    <div class="container">
+        <div class="title-container">
+            <h1><span class="heart">💖</span>Happy Birthday My Love!<span class="heart">💖</span></h1>
+        </div>
+        
+        <div class="panda-container">
+            <div class="panda" id="panda">
+                <div class="panda-head">
+                    <div class="panda-face-patch"></div>
+                    <div class="panda-eye-patch panda-eye-patch-left"></div>
+                    <div class="panda-eye-patch panda-eye-patch-right"></div>
+                    <div class="panda-ear panda-ear-left"></div>
+                    <div class="panda-ear panda-ear-right"></div>
+                    <div class="panda-eye panda-eye-left">
+                        <div class="panda-eye-light"></div>
+                    </div>
+                    <div class="panda-eye panda-eye-right">
+                        <div class="panda-eye-light"></div>
+                    </div>
+                    <div class="panda-nose"></div>
+                    <div class="panda-mouth"></div>
+                </div>
+                <div class="panda-body"></div>
+                <div class="panda-arm panda-arm-left">
+                    <div class="panda-hand"></div>
+                </div>
+                <div class="panda-arm panda-arm-right">
+                    <div class="panda-hand"></div>
+                </div>
+                <div class="panda-leg panda-leg-left"></div>
+                <div class="panda-leg panda-leg-right"></div>
+                <div class="sign">
+                    <div class="sign-text">Click me for birthday wishes!</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wish-container">
+            <p class="wish" id="wishText">Click the panda to reveal your special birthday wish!</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn prev-btn" onclick="window.location.href='birthday.html'">
+                <i class="fas fa-arrow-left"></i> Back To My Promise
+            </button>
+            <button class="nav-btn next-btn" onclick="window.location.href='surprise.html'">
+                Surprise <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio element (hidden) -->
+    <audio id="backgroundMusic" loop>
+        <source src="wish.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const panda = document.getElementById('panda');
+            const wishText = document.getElementById('wishText');
+            const sign = document.querySelector('.sign');
+            const body = document.body;
+            
+            // Audio element
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            
+            // Try to play music automatically (may require user interaction in some browsers)
+            function playMusic() {
+                backgroundMusic.play().catch(e => {
+                    console.log("Autoplay prevented. Music will play after user interaction.");
+                    // Add a one-time click event to start music
+                    document.addEventListener('click', function musicStart() {
+                        backgroundMusic.play().catch(e => console.log("Music play failed:", e));
+                        document.removeEventListener('click', musicStart);
+                    }, { once: true });
+                });
+            }
+            
+            // Wait for the page to fully load before trying to play music
+            window.addEventListener('load', function() {
+                // Small delay to ensure everything is ready
+                setTimeout(playMusic, 500);
+            });
+            
+            // Birthday wishes array
+            const wishes = [
+                "Every moment with you feels like a celebration, but today is especially magical. Happy birthday to the woman who makes my heart skip a beat! 💖",
+                "Your smile is my favorite sight, your laughter my favorite sound. Wishing the happiest of birthdays to the most beautiful woman I know. 🌹",
+                "On your special day, I want to remind you how incredibly sexy and amazing you are. You take my breath away, today and every day. 😘",
+                "Happy birthday to the one who stole my heart. I fall more in love with you with each passing day. Here's to celebrating you! 🥂",
+                "Your birthday gives me the perfect excuse to spoil you rotten today. But honestly, I'd do it every day if you'd let me. 💝",
+                "From the way your eyes light up when you're happy to the way you bite your lip when you're thinking - everything about you drives me wild. Happy birthday, beautiful! 🔥",
+                "They say the best things in life are worth waiting for. Waiting for your birthday to show you how much I adore you was definitely worth it. 💕",
+                "Today isn't just about celebrating your birth, but celebrating the incredible woman you've become. I'm so lucky to be by your side. 🌟",
+                "I promise to make your birthday as unforgettable as the first time we kissed. Get ready for a day filled with love and surprises. 💋",
+                "You're like fine wine - getting better and more desirable with each passing year. Happy birthday to my irresistible beauty! 🍷"
+            ];
+            
+            // Background themes corresponding to each wish
+            const themes = [
+                "theme-1", "theme-2", "theme-3", "theme-4", "theme-5",
+                "theme-6", "theme-7", "theme-8", "theme-9", "theme-10"
+            ];
+            
+            // Sign colors corresponding to each wish
+            const signColors = [
+                "#ff6ba8", "#6a11cb", "#ff5e62", "#f83600", "#fccb90",
+                "#00dbde", "#ff9a9e", "#a18cd1", "#f6d365", "#84fab0"
+            ];
+            
+            // Decorative elements
+            const decorations = [
+                { class: 'floating-heart', symbol: '❤️', count: 20 },
+                { class: 'balloon', symbol: '', count: 15 },
+                { class: 'cake', symbol: '🎂', count: 8 },
+                { class: 'sparkle', symbol: '✨', count: 25 }
+            ];
+            
+            // Create decorative elements
+            decorations.forEach(deco => {
+                for (let i = 0; i < deco.count; i++) {
+                    const element = document.createElement('div');
+                    element.className = `decoration ${deco.class}`;
+                    element.innerHTML = deco.symbol;
+                    
+                    // Random position
+                    element.style.left = `${Math.random() * 100}%`;
+                    element.style.top = `${Math.random() * 100}%`;
+                    element.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    document.body.appendChild(element);
+                }
+            });
+            
+            // Function to show random wish
+            function showRandomWish() {
+                // Random index
+                const randomIndex = Math.floor(Math.random() * wishes.length);
+                
+                // Update wish text with animation
+                wishText.style.opacity = 0;
+                setTimeout(() => {
+                    wishText.textContent = wishes[randomIndex];
+                    wishText.style.opacity = 1;
+                }, 500);
+                
+                // Change background theme
+                body.className = themes[randomIndex];
+                
+                // Change sign color
+                sign.style.background = signColors[randomIndex];
+                
+                // Animate the panda
+                panda.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    panda.style.transform = 'scale(1)';
+                }, 300);
+                
+                // Animate the sign
+                sign.style.transform = 'translateX(-50%) scale(1.1)';
+                setTimeout(() => {
+                    sign.style.transform = 'translateX(-50%) scale(1)';
+                }, 300);
+                
+                // Create floating wish animation
+                const floatingWish = document.createElement('div');
+                floatingWish.className = 'decoration';
+                floatingWish.textContent = '🎁 ' + wishes[randomIndex].substring(0, 20) + '...';
+                floatingWish.style.color = 'white';
+                floatingWish.style.fontWeight = 'bold';
+                floatingWish.style.fontSize = '18px';
+                floatingWish.style.left = '50%';
+                floatingWish.style.top = '50%';
+                floatingWish.style.transform = 'translate(-50%, -50%)';
+                floatingWish.style.opacity = '0';
+                floatingWish.style.zIndex = '100';
+                floatingWish.style.textShadow = '2px 2px 4px rgba(0, 0, 0, 0.5)';
+                floatingWish.style.animation = 'float 5s ease-in-out';
+                
+                document.body.appendChild(floatingWish);
+                
+                // Animate the floating wish
+                setTimeout(() => {
+                    floatingWish.style.opacity = '1';
+                    floatingWish.style.transition = 'all 5s ease-in-out';
+                    floatingWish.style.top = '0%';
+                }, 100);
+                
+                // Remove the element after animation
+                setTimeout(() => {
+                    document.body.removeChild(floatingWish);
+                }, 5000);
+            }
+            
+            // Event listener for panda click
+            panda.addEventListener('click', showRandomWish);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlock My Love 🐼</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Poppins", sans-serif;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(270deg,#ff4d6d,#ffcc70,#6dd5ed,#a1ffce,#fcb045,#fd1d1d,#833ab4);
+      background-size: 1400% 1400%;
+      animation: gradientShift 10s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .emoji {
+      position: fixed;
+      bottom: -10vh;
+      font-size: 2rem;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,.25));
+      animation: floatUp linear forwards;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) translateX(0) scale(.8); opacity: 0; }
+      10%  { opacity: 1; }
+      100% { transform: translateY(-120vh) translateX(var(--drift, 0)) scale(1.2); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(92vw, 420px);
+      padding: 28px 24px;
+      border-radius: 22px;
+      text-align: center;
+      color: #fff;
+      backdrop-filter: blur(14px);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 20px 50px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.25);
+      overflow: hidden;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0) }
+      50%     { transform: translateY(-8px) }
+    }
+    .card::before {
+      content: "";
+      position: absolute; inset: -2px;
+      border-radius: inherit;
+      background: conic-gradient(from var(--angle, 0deg),
+        #ff6a00, #ee0979, #f9d423, #40e0d0, #ff6a00);
+      z-index: -1;
+      animation: spin 6s linear infinite;
+      filter: blur(6px) saturate(120%);
+    }
+    .card::after {
+      content: "";
+      position: absolute; inset: 2px;
+      border-radius: inherit;
+      background: rgba(0,0,0,.25);
+      z-index: -1;
+      backdrop-filter: blur(18px);
+    }
+    @keyframes spin { to { --angle: 360deg; } }
+
+    h1 {
+      font-family: "Dancing Script", cursive;
+      font-size: clamp(28px, 5vw, 40px);
+      line-height: 1.1;
+      margin-bottom: 14px;
+      background: linear-gradient(90deg,#fff,#ffefba,#ffffff,#ffd1dc);
+      -webkit-background-clip: text; 
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 18px rgba(255,255,255,.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse {
+      display: inline-block;
+      font-size: 1.4em;
+      animation: pulseHeart 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes pulseHeart {
+      0% { transform: scale(1); filter: drop-shadow(0 0 6px #fff); }
+      100% { transform: scale(1.3); filter: drop-shadow(0 0 16px #fff); }
+    }
+
+    .hint { font-size: 12px; opacity: .85; margin-top: 8px; }
+    .input {
+      width: 100%; margin: 14px 0 12px; padding: 14px 16px;
+      border-radius: 14px; border: 2px solid transparent;
+      font-size: 16px; text-align: center; color: #222; background: #fff;
+      animation: inputBorder 3s linear infinite;
+    }
+    @keyframes inputBorder {
+      0% { border-image: linear-gradient(45deg,#ff6a00,#ee0979,#f9d423) 1; }
+      50% { border-image: linear-gradient(45deg,#40e0d0,#7a00ff,#ff00ab) 1; }
+      100% { border-image: linear-gradient(45deg,#ff6a00,#ee0979,#f9d423) 1; }
+    }
+
+    .btn {
+      width: 100%; padding: 12px 16px; border: 0; border-radius: 14px;
+      font-weight: 600; font-size: 16px; color: #fff; cursor: pointer;
+      background: linear-gradient(45deg,#ff6a00,#ee0979,#f9d423);
+      background-size: 200% 200%; animation: btnShift 3s ease infinite;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+    @keyframes btnShift {
+      0%{ background-position: 0% 50% } 
+      50%{ background-position: 100% 50% } 
+      100%{ background-position: 0% 50% }
+    }
+
+    .error { height: 22px; margin-top: 8px; color: #fffd7a; font-weight: 600; }
+    .shake { animation: shake .4s ease; }
+    @keyframes shake {
+      10%, 90% { transform: translateX(-2px); }
+      20%, 80% { transform: translateX(4px); }
+      30%, 50%, 70% { transform: translateX(-6px); }
+      40%, 60% { transform: translateX(6px); }
+    }
+
+    .footer-hearts {
+      position: fixed; bottom: 10px; left: 50%;
+      transform: translateX(-50%); color: #fff; opacity: .8;
+      font-size: 14px; text-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <h1>
+      <span class="pulse" style="color:white; -webkit-text-fill-color: initial;">🐼</span>
+  Unlock the Surprise My Pandy
+  <span class="pulse" style="color:white; -webkit-text-fill-color: initial;">🐼</span>
+    </h1>
+    <input id="pwd" class="input" type="password" placeholder="DDMMYYYY" autocomplete="off" />
+    <button class="btn" id="unlockBtn">Unlock 💝</button>
+    <div class="hint">Hint: Your special date (DDMMYYYY)</div>
+    <div id="err" class="error"></div>
+  </div>
+
+  <!-- Soft background music -->
+  <audio id="softMusic" autoplay loop muted>
+    <source src="soft.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="footer-hearts">🐼 🎈 💖 🎂 🎁</div>
+
+  <script>
+    // Floating emojis
+    const EMOJIS = ["🎈","💖","🐼","🎁","🎂","💝","✨"];
+    function spawnEmoji() {
+      const e = document.createElement("div");
+      e.className = "emoji";
+      e.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      e.style.left = Math.random() * 100 + "vw";
+      e.style.fontSize = (Math.random()*26 + 22) + "px";
+      e.style.animationDuration = (Math.random()*4 + 6) + "s"; 
+      e.style.setProperty("--drift", (Math.random() * 80 - 40) + "px");
+      document.body.appendChild(e);
+      setTimeout(()=> e.remove(), 11000);
+    }
+    setInterval(spawnEmoji, 120);
+    for (let i=0;i<40;i++) spawnEmoji();
+
+    // Soft music autoplay handling
+    const soft = document.getElementById("softMusic");
+    function enableSound() {
+      soft.muted = false;
+      soft.volume = 0.3;
+      soft.play().catch(()=>{});
+      window.removeEventListener("pointerdown", enableSound);
+      window.removeEventListener("keydown", enableSound);
+    }
+    soft.play().catch(()=>{}); // try autoplay
+    window.addEventListener("pointerdown", enableSound, { once: true });
+    window.addEventListener("keydown", enableSound, { once: true });
+
+    // Password logic
+    const pwdInput = document.getElementById("pwd");
+    const unlockBtn = document.getElementById("unlockBtn");
+    const err = document.getElementById("err");
+    const card = document.getElementById("card");
+
+    function goBirthday() {
+      try { soft.pause(); soft.currentTime = 0; } catch(e){}
+      window.location.href = "birthday.html";
+    }
+
+    function checkPassword() {
+      const val = (pwdInput.value || "").trim();
+      if (val === "06092000") {
+        goBirthday();
+      } else {
+        err.textContent = "❌ Wrong password, try again!";
+        card.classList.remove("shake");
+        void card.offsetWidth;
+        card.classList.add("shake");
+      }
+    }
+    unlockBtn.addEventListener("click", checkPassword);
+    pwdInput.addEventListener("keydown", (e) => { if (e.key === "Enter") checkPassword(); });
+    window.addEventListener("load", () => { pwdInput.focus(); });
+  </script>
+</body>
+</html>

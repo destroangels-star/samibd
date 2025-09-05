@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+            background: #000;
+            padding: 20px;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0066, #ff6600, #ffcc00, #33cc33, #3399ff, #9966ff);
+            background-size: 400% 400%;
+            animation: rainbow 8s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 0;
+            transform: scale(0.9);
+            border: 2px solid #ff69b4;
+            position: relative;
+            z-index: 5;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        button {
+            margin: 15px;
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(to right, #ff3366, #ff9933);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #ff9933, #ff3366);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .kiss-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .kiss {
+            position: absolute;
+            font-size: 32px;
+            animation: fly 3s ease-in forwards;
+            pointer-events: none;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.8));
+            opacity: 0;
+        }
+
+        @keyframes fly {
+            0% { 
+                transform: translate(0, 0) rotate(0deg) scale(0.5); 
+                opacity: 0; 
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); 
+                opacity: 0; 
+            }
+        }
+
+        .video-container {
+            position: relative;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 560px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            background: #000;
+        }
+
+        .next-button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 20;
+        }
+
+        .next-button-container button {
+            margin: 0;
+            padding: 8px 16px;
+            font-size: 14px;
+            background: linear-gradient(to right, #ff69b4, #ff3366);
+        }
+
+        .close-button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 20;
+        }
+
+        .close-button-container button {
+            margin: 0;
+            padding: 8px 16px;
+            font-size: 14px;
+            background: linear-gradient(to right, #ff3366, #ff0000);
+        }
+
+        .play-button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            z-index: 15;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .play-button {
+            font-size: 60px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+            transition: all 0.3s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.2);
+            color: white;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 24px;
+            color: #ffcc00;
+            line-height: 1.4;
+        }
+
+        #no-kiss-msg h1, #no-truth-msg h1 {
+            color: #ff3366;
+            animation: pulse 2s infinite;
+        }
+
+        .kiss-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .kiss-icon {
+            font-size: 80px;
+            position: absolute;
+            opacity: 0;
+            animation: kissIconAnimation 2s ease-out forwards;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+        }
+
+        @keyframes kissIconAnimation {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            .kiss {
+                font-size: 28px;
+            }
+            
+            .play-button {
+                font-size: 50px;
+            }
+            
+            .kiss-icon {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="kiss-container" id="kiss-container"></div>
+    <div class="kiss-icons" id="kiss-icons"></div>
+    
+    <div class="container visible" id="main-container">
+        <div id="initial">
+            <h1>Do you want to get a Special Offer?</h1>
+            <button onclick="showOffer(true)">Yes, Please!</button>
+            <button onclick="showOffer(false)">No, Thanks</button>
+        </div>
+        <div id="offer" class="hidden">
+            <h1>Give me one kiss and receive a bundle of kisses in return! 💋</h1>
+            <button onclick="handleKiss(true)">Yes, I'll give a kiss!</button>
+            <button onclick="handleKiss(false)">No, I won't!</button>
+        </div>
+        <div id="no-kiss-msg" class="hidden">
+            <h1>Even if you refuse, I'm still going to shower you with kisses! 💋</h1>
+        </div>
+        <div id="truth" class="hidden">
+            <h1>Are you ready to discover the truth?</h1>
+            <button onclick="showTruth(true)">Yes, show me!</button>
+            <button onclick="showTruth(false)">No, not yet!</button>
+        </div>
+        <div id="no-truth-msg" class="hidden">
+            <h1>Well, I'm going to show you anyway! 😊</h1>
+        </div>
+        <div id="video-section" class="hidden">
+            <div class="video-container">
+                <video id="current-video" width="100%" height="auto" playsinline>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div id="play-button-overlay" class="play-button-overlay">
+                    <div class="play-button">▶</div>
+                </div>
+                <div id="next-button" class="next-button-container hidden">
+                    <button onclick="nextVideo()">Next →</button>
+                </div>
+                <div id="close-button" class="close-button-container hidden">
+                    <button onclick="goBack()">Close ❌</button>
+                </div>
+            </div>
+            
+            <button onclick="goBack()">Back to Birthday Page</button>
+        </div>
+    </div>
+
+    <audio id="kiss-sound" loop>
+        <source src="https://soundfxcenter.com/human/mouth/8d82b5_Kiss_Sound_Effect.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ========================================
+        // KISS ANIMATION SETTINGS - ADJUST THESE VALUES TO CHANGE KISS EFFECT
+        // ========================================
+        const KISS_SETTINGS = {
+            // Total maximum number of kisses to create
+            MAX_KISSES: 50,
+            
+            // Number of kisses created in each interval
+            KISSES_PER_INTERVAL: 3,
+            
+            // Time between creating new sets of kisses (milliseconds)
+            INTERVAL_TIME: 300,
+            
+            // Total duration of the kiss animation (milliseconds)
+            ANIMATION_DURATION: 5000,
+            
+            // Kiss emojis to use (add or remove as desired)
+            EMOJIS: ['💋', '😘', '👄', '🥰', '🫦'],
+            
+            // Kiss icons to display during kissing process
+            KISS_ICONS: ['💖', '💕', '💓', '💗', '💞', '💘'],
+            
+            // Minimum and maximum font size for kisses (pixels)
+            MIN_FONT_SIZE: 28,
+            MAX_FONT_SIZE: 40,
+            
+            // Movement range for kisses (pixels)
+            MOVEMENT_RANGE: 200
+        };
+        // ========================================
+        
+        const container = document.getElementById('main-container');
+        const kissContainer = document.getElementById('kiss-container');
+        const kissIconsContainer = document.getElementById('kiss-icons');
+        const videoElement = document.getElementById('current-video');
+        const nextButton = document.getElementById('next-button');
+        const closeButton = document.getElementById('close-button');
+        const playButtonOverlay = document.getElementById('play-button-overlay');
+        let currentVideoIndex = 0;
+        
+        // Video files - replace with your actual video file names
+        const videos = ['1.mp4','2.mp4','3.mp4'];
+        
+        // Video titles
+        const videoTitles = [
+            "The Truth Revealed",
+            "A Special Heart",
+            "Final Message"
+        ];
+
+        // Initialize video element
+        videoElement.controls = true;
+        
+        // Try to autoplay the video
+        function attemptAutoplay() {
+            const playPromise = videoElement.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay started successfully
+                    playButtonOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        playButtonOverlay.classList.add('hidden');
+                    }, 300);
+                }).catch(error => {
+                    // Autoplay was prevented, show play button
+                    playButtonOverlay.classList.remove('hidden');
+                    playButtonOverlay.style.opacity = '1';
+                    videoElement.controls = false; // Hide controls until play
+                });
+            }
+        }
+        
+        // Play button click handler
+        playButtonOverlay.addEventListener('click', function() {
+            videoElement.play();
+            playButtonOverlay.style.opacity = '0';
+            setTimeout(() => {
+                playButtonOverlay.classList.add('hidden');
+            }, 300);
+            videoElement.controls = true; // Show controls after play
+        });
+        
+        // Video event listeners
+        videoElement.addEventListener('play', function() {
+            playButtonOverlay.style.opacity = '0';
+            setTimeout(() => {
+                playButtonOverlay.classList.add('hidden');
+            }, 300);
+        });
+        
+        videoElement.addEventListener('pause', function() {
+            if (!videoElement.ended) {
+                playButtonOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    playButtonOverlay.style.opacity = '1';
+                }, 10);
+            }
+        });
+        
+        videoElement.addEventListener('ended', function() {
+            if (currentVideoIndex < videos.length - 1) {
+                nextButton.classList.remove('hidden');
+                closeButton.classList.add('hidden');
+                // Show play button again when video ends
+                playButtonOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    playButtonOverlay.style.opacity = '1';
+                }, 10);
+            } else {
+                // Last video ended, show close button
+                nextButton.classList.add('hidden');
+                closeButton.classList.remove('hidden');
+                // Hide play button on last video end
+                playButtonOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    playButtonOverlay.classList.add('hidden');
+                }, 300);
+            }
+        });
+
+        function transitionHide(elementId, callback) {
+            const elem = document.getElementById(elementId);
+            elem.parentElement.classList.remove('visible');
+            setTimeout(() => {
+                elem.classList.add('hidden');
+                if (callback) callback();
+            }, 500);
+        }
+
+        function transitionShow(elementId) {
+            const elem = document.getElementById(elementId);
+            elem.classList.remove('hidden');
+            setTimeout(() => {
+                container.classList.add('visible');
+            }, 10);
+        }
+
+        function showOffer(accepted) {
+            if (accepted) {
+                transitionHide('initial', () => transitionShow('offer'));
+            } else {
+                alert('Okay, maybe next time!');
+            }
+        }
+
+        function handleKiss(accepted) {
+            transitionHide('offer', () => {
+                if (!accepted) {
+                    transitionShow('no-kiss-msg');
+                    setTimeout(() => {
+                        transitionHide('no-kiss-msg', showKisses);
+                    }, 2500);
+                } else {
+                    showKisses();
+                }
+            });
+        }
+
+        let kissInterval;
+        let kissIconsInterval;
+        
+        function showKisses() {
+            const sound = document.getElementById('kiss-sound');
+            sound.play();
+
+            // Create optimized kiss animations
+            let kissCount = 0;
+            
+            kissInterval = setInterval(() => {
+                if (kissCount >= KISS_SETTINGS.MAX_KISSES) {
+                    clearInterval(kissInterval);
+                    return;
+                }
+                
+                for (let i = 0; i < KISS_SETTINGS.KISSES_PER_INTERVAL; i++) {
+                    createKiss();
+                    kissCount++;
+                }
+            }, KISS_SETTINGS.INTERVAL_TIME);
+            
+            // Create kiss icons animation
+            kissIconsInterval = setInterval(createKissIcon, 800);
+
+            setTimeout(() => {
+                clearInterval(kissInterval);
+                clearInterval(kissIconsInterval);
+                sound.pause();
+                sound.currentTime = 0;
+                transitionShow('truth');
+            }, KISS_SETTINGS.ANIMATION_DURATION);
+        }
+
+        function createKiss() {
+            const kiss = document.createElement('div');
+            kiss.classList.add('kiss');
+            
+            // Use the emojis from settings
+            kiss.textContent = KISS_SETTINGS.EMOJIS[Math.floor(Math.random() * KISS_SETTINGS.EMOJIS.length)];
+            
+            // Random starting position
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            kiss.style.left = startX + 'vw';
+            kiss.style.top = startY + 'vh';
+            
+            // Random movement parameters
+            const dx = (Math.random() - 0.5) * KISS_SETTINGS.MOVEMENT_RANGE + 'px';
+            const dy = (Math.random() - 0.5) * KISS_SETTINGS.MOVEMENT_RANGE + 'px';
+            const rot = (Math.random() - 0.5) * 360 + 'deg';
+            
+            kiss.style.setProperty('--dx', dx);
+            kiss.style.setProperty('--dy', dy);
+            kiss.style.setProperty('--rot', rot);
+            
+            // Random font size
+            const fontSize = KISS_SETTINGS.MIN_FONT_SIZE + Math.random() * (KISS_SETTINGS.MAX_FONT_SIZE - KISS_SETTINGS.MIN_FONT_SIZE);
+            kiss.style.fontSize = fontSize + 'px';
+            
+            kissContainer.appendChild(kiss);
+            
+            // Remove element after animation completes
+            setTimeout(() => {
+                if (kiss.parentNode) {
+                    kiss.parentNode.removeChild(kiss);
+                }
+            }, 3000);
+        }
+        
+        function createKissIcon() {
+            const icon = document.createElement('div');
+            icon.classList.add('kiss-icon');
+            
+            // Use the kiss icons from settings
+            icon.textContent = KISS_SETTINGS.KISS_ICONS[Math.floor(Math.random() * KISS_SETTINGS.KISS_ICONS.length)];
+            
+            // Random position
+            const posX = 30 + Math.random() * 40;
+            const posY = 30 + Math.random() * 40;
+            icon.style.left = posX + 'vw';
+            icon.style.top = posY + 'vh';
+            
+            kissIconsContainer.appendChild(icon);
+            
+            // Remove element after animation completes
+            setTimeout(() => {
+                if (icon.parentNode) {
+                    icon.parentNode.removeChild(icon);
+                }
+            }, 2000);
+        }
+
+        function showTruth(accepted) {
+            transitionHide('truth', () => {
+                if (!accepted) {
+                    transitionShow('no-truth-msg');
+                    setTimeout(() => {
+                        transitionHide('no-truth-msg', showVideo);
+                    }, 2500);
+                } else {
+                    showVideo();
+                }
+            });
+        }
+
+        function showVideo() {
+            transitionShow('video-section');
+            playVideo(0);
+        }
+
+        function playVideo(index) {
+            currentVideoIndex = index;
+            videoElement.src = videos[index];
+            
+            // Set video title if available
+            if (index < videoTitles.length) {
+                videoElement.title = videoTitles[index];
+            }
+            
+            // Show next button for all except last video
+            if (index < videos.length - 1) {
+                nextButton.classList.remove('hidden');
+                closeButton.classList.add('hidden');
+            } else {
+                nextButton.classList.add('hidden');
+                // Don't show close button until video ends
+                closeButton.classList.add('hidden');
+            }
+            
+            // Show play button overlay initially
+            playButtonOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                playButtonOverlay.style.opacity = '1';
+            }, 10);
+            
+            // Attempt to autoplay the video
+            setTimeout(attemptAutoplay, 300);
+        }
+
+        function nextVideo() {
+            playVideo(currentVideoIndex + 1);
+        }
+
+        function goBack() {
+            window.location.href = 'birthday.html';
+        }
+    </script>
+</body>
+</html>
